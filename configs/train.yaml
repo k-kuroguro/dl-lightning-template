@@ -1,0 +1,23 @@
+defaults:
+  - _self_
+  - model: fashion_mnist
+  - data: fashion_mnist
+  - logger: null
+  - callbacks: default
+  - trainer: default
+  - paths: default
+  - hydra: default
+  - sweeper: null
+  - experiment: null
+  - debug: null
+
+task_name: train
+
+train: True
+test: True
+
+ckpt_path: null
+
+seed: null
+
+ignore_warnings: False

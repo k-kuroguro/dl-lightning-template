@@ -1,0 +1,7 @@
+_target_: data.fashion_mnist.FashionMNISTDataModule
+data_dir: ${paths.data_dir}
+batch_size: 256
+train_val_ratio: [0.9, 0.1]
+num_workers: 5
+pin_memory: False
+persistent_workers: True

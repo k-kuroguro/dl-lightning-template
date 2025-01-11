@@ -1,0 +1,13 @@
+wandb:
+  _target_: lightning.pytorch.loggers.wandb.WandbLogger
+  name: null
+  save_dir: ${paths.output_dir}
+  offline: False
+  id: null
+  anonymous: null
+  project: ${basename:${find_project_root:}}
+  log_model: False
+  prefix: ""
+  group: ${task_name}
+  tags: []
+  job_type: ""
