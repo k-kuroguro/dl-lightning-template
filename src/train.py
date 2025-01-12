@@ -44,7 +44,7 @@ def main(cfg: DictConfig) -> float | None:
     loggers = instantiate_loggers(cfg)
     resolved_cfg = OmegaConf.to_container(cfg, resolve=True)
     for logger in loggers:
-        logger.log_hyperparams(resolved_cfg)  # type: ignore
+        logger.log_hyperparams(resolved_cfg)  # type: ignore[arg-type]
 
     log.info("Instantiating callbacks ...")
     callbacks = instantiate_callbacks(cfg)

@@ -11,11 +11,11 @@ class RankedLogger(logging.LoggerAdapter):
         super().__init__(logging.getLogger(name), extra)
         self._rank_zero_only = rank_zero_only
 
-    def log(self, level: int, msg: str, rank: int | None = None, *args, **kwargs) -> None:  # type: ignore
+    def log(self, level: int, msg: str, rank: int | None = None, *args, **kwargs) -> None:  # type: ignore[override]
         if not self.isEnabledFor(level):
             return
 
-        msg, kwargs = self.process(msg, kwargs)  # type: ignore
+        msg, kwargs = self.process(msg, kwargs)  # type: ignore[assignment]
         current_rank = self._get_current_rank()
         msg = rank_prefixed_message(str(msg), current_rank)
         if self._rank_zero_only:

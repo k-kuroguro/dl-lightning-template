@@ -85,7 +85,7 @@ class FashionMNISTLitModule(LightningModule):
         return {"loss": loss, "preds": preds, "targets": targets}
 
     def on_validation_epoch_end(self) -> None:
-        acc = self.val_acc.compute()  # type: ignore
+        acc = self.val_acc.compute()  # type: ignore[func-returns-value]
         self.val_acc_best(acc)
         self.log("val/acc_best", self.val_acc_best.compute(), sync_dist=True, prog_bar=True)
 
