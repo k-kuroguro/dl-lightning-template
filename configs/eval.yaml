@@ -1,0 +1,18 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - model: fashion_mnist
+  - data: fashion_mnist
+  - logger: null
+  - callbacks: default
+  - trainer: default
+  - paths: default
+  - hydra: default
+  - experiment: null
+
+task_name: "eval"
+
+ckpt_path: null
+
+ignore_warnings: False
