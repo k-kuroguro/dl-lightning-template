@@ -34,17 +34,17 @@ class CNN(nn.Module):
         current_channels = input_channels
         current_size = list(input_size)
 
-        for layer in conv_layers:
-            padding = layer["padding"]
+        for conv_layer in conv_layers:
+            padding = conv_layer["padding"]
             if padding == "same":
-                padding = layer["kernel_size"] // 2
+                padding = conv_layer["kernel_size"] // 2
 
             layers.append(
                 nn.Conv2d(
                     in_channels=current_channels,
-                    out_channels=layer["out_channels"],
-                    kernel_size=layer["kernel_size"],
-                    stride=layer["stride"],
+                    out_channels=conv_layer["out_channels"],
+                    kernel_size=conv_layer["kernel_size"],
+                    stride=conv_layer["stride"],
                     padding=padding,
                 )
             )
@@ -52,21 +52,21 @@ class CNN(nn.Module):
             layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
             layers.append(nn.Dropout2d(p=dropout))
 
-            current_channels = layer["out_channels"]
+            current_channels = conv_layer["out_channels"]
             for i in range(2):
-                current_size[i] = (current_size[i] + 2 * padding - layer["kernel_size"]) // layer[
-                    "stride"
-                ] + 1
+                current_size[i] = (
+                    current_size[i] + 2 * padding - conv_layer["kernel_size"]
+                ) // conv_layer["stride"] + 1
                 current_size[i] = current_size[i] // 2
 
         flatten_size = current_channels * current_size[0] * current_size[1]
         current_features = flatten_size
 
         layers.append(nn.Flatten())
-        for layer in fc_layers:
-            layers.append(nn.Linear(current_features, layer["out_features"]))
+        for fc_layer in fc_layers:
+            layers.append(nn.Linear(current_features, fc_layer["out_features"]))
             layers.append(nn.ReLU())
-            current_features = layer["out_features"]
+            current_features = fc_layer["out_features"]
 
         layers.append(nn.Linear(current_features, num_classes))
 

@@ -1,33 +1,44 @@
-from typing import Final, TypedDict
+from typing import Callable, Final, TypedDict
 
 import torch
 from lightning import LightningModule
+from lightning.fabric.utilities.data import AttributeDict
 from lightning.pytorch.utilities.types import OptimizerConfig, OptimizerLRSchedulerConfig
 from torchmetrics import MaxMetric, MeanMetric
 from torchmetrics.classification.accuracy import Accuracy
 
+from .types import OptimizerFactory, SchedulerFactory
 
-class StepOutput(TypedDict):
+
+class _StepOutput(TypedDict):
     loss: torch.Tensor
     preds: torch.Tensor
     targets: torch.Tensor
 
 
+class _HParams(AttributeDict):
+    net: torch.nn.Module
+    optimizer: OptimizerFactory
+    scheduler: SchedulerFactory
+    compile: bool
+
+
 class FashionMNISTLitModule(LightningModule):
     NUM_CLASSES: Final = 10
+    hparams: _HParams
 
     def __init__(
         self,
         net: torch.nn.Module,
-        optimizer: torch.optim.Optimizer,
-        scheduler: torch.optim.lr_scheduler,
+        optimizer: OptimizerFactory,
+        scheduler: SchedulerFactory,
         compile: bool,
     ) -> None:
         super().__init__()
 
         self.save_hyperparameters(logger=False)
 
-        self.net = net
+        self.net: torch.nn.Module | Callable = net
 
         self.criterion = torch.nn.CrossEntropyLoss()
 
@@ -74,7 +85,7 @@ class FashionMNISTLitModule(LightningModule):
 
     def validation_step(
         self, batch: tuple[torch.Tensor, torch.Tensor], batch_idx: int
-    ) -> StepOutput:
+    ) -> _StepOutput:
         loss, preds, targets = self.model_step(batch)
 
         self.val_loss(loss)
@@ -89,7 +100,7 @@ class FashionMNISTLitModule(LightningModule):
         self.val_acc_best(acc)
         self.log("val/acc_best", self.val_acc_best.compute(), sync_dist=True, prog_bar=True)
 
-    def test_step(self, batch: tuple[torch.Tensor, torch.Tensor], batch_idx: int) -> StepOutput:
+    def test_step(self, batch: tuple[torch.Tensor, torch.Tensor], batch_idx: int) -> _StepOutput:
         loss, preds, targets = self.model_step(batch)
 
         self.test_loss(loss)
@@ -106,6 +117,8 @@ class FashionMNISTLitModule(LightningModule):
             self.net = torch.compile(self.net)
 
     def configure_optimizers(self) -> OptimizerConfig | OptimizerLRSchedulerConfig:
+        assert self.trainer.model
+
         optimizer = self.hparams.optimizer(params=self.trainer.model.parameters())
         if self.hparams.scheduler is not None:
             scheduler = self.hparams.scheduler(optimizer=optimizer)

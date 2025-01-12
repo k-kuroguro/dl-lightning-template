@@ -2,12 +2,25 @@ from typing import Any, Callable
 
 import torch
 from lightning import LightningDataModule
+from lightning.fabric.utilities.data import AttributeDict
 from torch.utils.data import DataLoader, Dataset, random_split
 from torchvision.datasets import FashionMNIST
 from torchvision.transforms import transforms
 
 
+class _HParams(AttributeDict):
+    data_dir: str
+    train_val_ratio: tuple[float, float]
+    batch_size: int
+    num_workers: int
+    pin_memory: bool
+    persistent_workers: bool
+    transform: Callable | None
+
+
 class FashionMNISTDataModule(LightningDataModule):
+    hparams: _HParams
+
     def __init__(
         self,
         data_dir: str = "data/",
