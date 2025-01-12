@@ -15,6 +15,13 @@ To use this template, you can either click the [<kbd>Use this template</kbd>](ht
 $ uvx copier copy gh:k-kuroguro/ml-lightning-template my_project
 ```
 
+Set up the project.
+
+```bash
+$ cd my_project
+$ uv run task setup
+```
+
 ## References
 
 This template is based on the following projects:

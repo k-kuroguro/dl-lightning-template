@@ -24,12 +24,14 @@ tools = [
    "bottle==0.12.25", # Fixed version to avoid issue. (cf. https://github.com/optuna/optuna-dashboard/issues/956)
    "ruff>=0.8.4",
    "taskipy>=1.14.1",
+   "pre-commit>=4.0.1",
 ]
 
 [tool.uv]
 default-groups = ["tools"]
 
 [tool.taskipy.tasks]
+setup = "sh scripts/setup.sh"
 clean-logs = "rm -rf logs/**"
 
 [tool.ruff]
