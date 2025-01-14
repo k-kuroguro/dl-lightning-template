@@ -29,6 +29,7 @@ tools = [
 
 [tool.uv]
 default-groups = ["tools"]
+required-version = ">=0.5.18"
 
 [tool.taskipy.tasks]
 setup = "sh scripts/setup.sh"

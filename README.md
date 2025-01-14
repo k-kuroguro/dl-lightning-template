@@ -4,7 +4,7 @@
 
 ```bash
 $ uv --version
-uv 0.5.5 (95cd8b8b3 2024-11-27)
+uv 0.5.18 (27d1bad55 2025-01-11)
 ```
 
 ## Installation
