@@ -1,5 +1,5 @@
 [project]
-name = "ml-lightning-template"
+name = "dl-lightning-template"
 version = "0.1.0"
 description = ""
 license = "MIT"

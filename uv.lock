@@ -608,7 +608,7 @@ wheels = [
 ]
 
 [[package]]
-name = "ml-lightning-template"
+name = "dl-lightning-template"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

@@ -1,10 +1,10 @@
-# ML Lightning Template
+# DL Lightning Template
 
-A template for machine learning projects built using PyTorch Lightning and Hydra.
+A template for deep learning projects built using PyTorch Lightning and Hydra.
 
 ## Tech Stack
 
-- **ML Framework**: [PyTorch Lightning](https://github.com/Lightning-AI/pytorch-lightning)
+- **DL Framework**: [PyTorch Lightning](https://github.com/Lightning-AI/pytorch-lightning)
 - **Configuration**: [Hydra](https://github.com/facebookresearch/hydra)
 - **Package/Project Manager**: [uv](https://github.com/astral-sh/uv)
 - **Task Runner**: [taskipy](https://github.com/taskipy/taskipy)
@@ -20,10 +20,10 @@ uv 0.5.18 (27d1bad55 2025-01-11)
 
 ## Installation
 
-To use this template, you can either click the [<kbd>Use this template</kbd>](https://github.com/k-kuroguro/ml-lightning-template/generate) button to generate a GitHub repository or run the following command to generate the local project:
+To use this template, you can either click the [<kbd>Use this template</kbd>](https://github.com/k-kuroguro/dl-lightning-template/generate) button to generate a GitHub repository or run the following command to generate the local project:
 
 ```bash
-$ uvx copier copy gh:k-kuroguro/ml-lightning-template my_project
+$ uvx copier copy gh:k-kuroguro/dl-lightning-template my_project
 ```
 
 Next, set up the project:
