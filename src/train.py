@@ -2,30 +2,25 @@ import warnings
 
 import hydra
 import lightning as L
-import rootutils
+import torch
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
+from constants import HYDRA_VERSION
 from utils import (
     RankedLogger,
-    find_project_root,
     get_config_path,
     instantiate_callbacks,
     instantiate_loggers,
-    register_custom_resolvers,
+    setup_environment,
 )
 
 log = RankedLogger(__name__, rank_zero_only=True)
 
-register_custom_resolvers()
-
-rootutils.set_root(
-    path=find_project_root(), project_root_env_var=True, dotenv=True, pythonpath=True
-)
+setup_environment()
 
 
-@hydra.main(version_base="1.3", config_path=str(get_config_path()), config_name="train.yaml")
-def main(cfg: DictConfig) -> float | None:
+def train(cfg: DictConfig) -> dict[str, torch.Tensor] | None:
     if cfg.get("ignore_warnings"):
         log.info("Ignoring warnings ...")
         warnings.filterwarnings("ignore")
@@ -42,9 +37,10 @@ def main(cfg: DictConfig) -> float | None:
 
     log.info("Instantiating loggers ...")
     loggers = instantiate_loggers(cfg)
-    resolved_cfg = OmegaConf.to_container(cfg, resolve=True)
-    for logger in loggers:
-        logger.log_hyperparams(resolved_cfg)  # type: ignore[arg-type]
+    if loggers:
+        resolved_cfg = OmegaConf.to_container(cfg, resolve=True)
+        for logger in loggers:
+            logger.log_hyperparams(resolved_cfg)  # type: ignore[arg-type]
 
     log.info("Instantiating callbacks ...")
     callbacks = instantiate_callbacks(cfg)
@@ -82,15 +78,27 @@ def main(cfg: DictConfig) -> float | None:
             wandb.finish()
 
     overall_metrics = {**train_metrics, **test_metrics}
+    return overall_metrics
+
+
+@hydra.main(
+    version_base=HYDRA_VERSION, config_path=str(get_config_path()), config_name="train.yaml"
+)
+def main(cfg: DictConfig) -> torch.Tensor | None:
+    metrics = train(cfg)
+
+    if not metrics:
+        return None
+
     target_metric = cfg.get("target_metric")
     if not target_metric:
         log.info("No target metric provided.")
         return None
-    if target_metric not in train_metrics:
+    if target_metric not in metrics:
         log.warning(f"Target metric {target_metric} not found in metrics.")
         return None
     log.info(f"Returning {target_metric} for optimization.")
-    return overall_metrics[target_metric]
+    return metrics[target_metric]
 
 
 if __name__ == "__main__":

@@ -2,30 +2,25 @@ import warnings
 
 import hydra
 import lightning as L
-import rootutils
+import torch
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
+from constants import HYDRA_VERSION
 from utils import (
     RankedLogger,
-    find_project_root,
     get_config_path,
     instantiate_callbacks,
     instantiate_loggers,
-    register_custom_resolvers,
+    setup_environment,
 )
 
 log = RankedLogger(__name__, rank_zero_only=True)
 
-register_custom_resolvers()
-
-rootutils.set_root(
-    path=find_project_root(), project_root_env_var=True, dotenv=True, pythonpath=True
-)
+setup_environment()
 
 
-@hydra.main(version_base="1.3", config_path=str(get_config_path()), config_name="eval.yaml")
-def main(cfg: DictConfig) -> None:
+def evaluate(cfg: DictConfig) -> dict[str, torch.Tensor] | None:
     if cfg.get("ignore_warnings"):
         log.info("Ignoring warnings ...")
         warnings.filterwarnings("ignore")
@@ -41,9 +36,10 @@ def main(cfg: DictConfig) -> None:
 
     log.info("Instantiating loggers ...")
     loggers = instantiate_loggers(cfg)
-    resolved_cfg = OmegaConf.to_container(cfg, resolve=True)
-    for logger in loggers:
-        logger.log_hyperparams(resolved_cfg)  # type: ignore[arg-type]
+    if loggers:
+        resolved_cfg = OmegaConf.to_container(cfg, resolve=True)
+        for logger in loggers:
+            logger.log_hyperparams(resolved_cfg)  # type: ignore[arg-type]
 
     log.info("Instantiating callbacks ...")
     callbacks = instantiate_callbacks(cfg)
@@ -60,6 +56,13 @@ def main(cfg: DictConfig) -> None:
 
         if wandb.run:
             wandb.finish()
+
+    return trainer.callback_metrics
+
+
+@hydra.main(version_base=HYDRA_VERSION, config_path=str(get_config_path()), config_name="eval.yaml")
+def main(cfg: DictConfig) -> None:
+    evaluate(cfg)
 
 
 if __name__ == "__main__":
