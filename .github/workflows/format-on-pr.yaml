@@ -1,0 +1,45 @@
+name: Format on PR
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  checks: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: pyproject.toml
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v45
+
+      - name: Run pre-commit
+        id: pre-commit
+        uses: pre-commit/action@v2.0.3
+        with:
+          extra_args: --files ${{ steps.changed-files.outputs.all_changed_files }}
+
+      - name: Suggest fixes
+        uses: reviewdog/action-suggester@v1
+        with:
+          tool_name: pre-commit
+        if: failure() && steps.pre-commit.outcome == 'failure'
