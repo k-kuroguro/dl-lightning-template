@@ -74,7 +74,11 @@ Code formatting is executed via pre-commit.
 - For direct pushes: By default, the workflow will only report formatting errors. To enable automatic PR creation with fixes, set `CREATE_PR: true` in `.github/workflows/format-on-push.yaml`.
 - For pull requests: Suggestions are added to the PR.
 
-**Note:** Some issues (like type errors detected by mypy) cannot be fixed automatically and require manual intervention.
+**Important Notes**:
+
+- Some issues (like type errors detected by mypy) cannot be fixed automatically and require manual intervention.
+- To create PRs automatically, enable the required repository settings.\
+  cf. [Preventing GitHub Actions from creating or approving pull requests](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/managing-github-actions-settings-for-a-repository#preventing-github-actions-from-creating-or-approving-pull-requests)
 
 ## References
 
