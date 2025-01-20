@@ -59,6 +59,23 @@ To evaluate the model, specify the path to the checkpoint:
 uv run src/eval.py ckpt_path=path/to/checkpoint
 ```
 
+## CI
+
+This template has a GitHub Actions workflow to ensure code quality.
+
+### Testing
+
+All tests are automatically executed on push and PR creation events.
+
+### Formatting
+
+Code formatting is executed via pre-commit.
+
+- For direct pushes: By default, the workflow will only report formatting errors. To enable automatic PR creation with fixes, set `CREATE_PR: true` in `.github/workflows/format-on-push.yaml`.
+- For pull requests: Suggestions are added to the PR.
+
+**Note:** Some issues (like type errors detected by mypy) cannot be fixed automatically and require manual intervention.
+
 ## References
 
 This template is based on the following projects:
