@@ -38,7 +38,7 @@ def _override_train_cfg(cfg: DictConfig) -> None:
 
     with open_dict(cfg):
         cfg.train = True
-        cfg.eval = False
+        cfg.test = True
 
 
 def _override_eval_cfg(cfg: DictConfig) -> None:
