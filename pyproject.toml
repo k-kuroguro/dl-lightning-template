@@ -53,6 +53,7 @@ line-ending = "auto"
 convention = "google"
 
 [tool.mypy]
+explicit_package_bases = true
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
