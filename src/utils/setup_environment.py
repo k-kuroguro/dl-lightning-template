@@ -1,4 +1,4 @@
-from typing import Callable
+from collections.abc import Callable
 
 
 def _get_setup_environment() -> Callable[[], None]:
@@ -7,7 +7,7 @@ def _get_setup_environment() -> Callable[[], None]:
     def setup_environment() -> None:
         nonlocal initialized
         if initialized:
-            return None
+            return
 
         import rootutils
 
@@ -18,9 +18,7 @@ def _get_setup_environment() -> Callable[[], None]:
 
         register_custom_resolvers()
 
-        rootutils.set_root(
-            path=find_project_root(), project_root_env_var=True, dotenv=True, pythonpath=True
-        )
+        rootutils.set_root(path=find_project_root(), project_root_env_var=True, dotenv=True, pythonpath=True)
 
         initialized = True
 

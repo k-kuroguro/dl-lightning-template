@@ -38,19 +38,46 @@ clean-logs = "rm -rf logs/**"
 test = "uv run pytest"
 
 [tool.ruff]
-line-length = 100
+line-length = 120
 
 [tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+   "A",
+   "ANN002",
+   "ANN003",
+   "ARG",
+   "C90",
+   "D1",
+   "D203",
+   "D213",
+   "D400",
+   "EM",
+   "ERA",
+   "G",
+   "N812",
+   "PLR0913",
+   "PTH",
+   "RET504",
+   "S101",
+   "T201",
+   "TRY003",
+]
+
 fixable = ["ALL"]
-unfixable = []
-ignore = ["B905", "D417", "E501", "PLR0913"]
+unfixable = ["F841"]
 
 [tool.ruff.format]
 quote-style = "double"
 line-ending = "auto"
+indent-style = "space"
+docstring-code-format = true
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["INP"]
 
 [tool.mypy]
 explicit_package_bases = true

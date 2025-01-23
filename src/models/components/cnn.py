@@ -20,15 +20,20 @@ class CNN(nn.Module):
         self,
         input_channels: int = 1,
         input_size: tuple[int, int] = (28, 28),
-        conv_layers: list[ConvLayerParams] = [
-            ConvLayerParams(out_channels=32, kernel_size=3, stride=1, padding="same"),
-            ConvLayerParams(out_channels=64, kernel_size=3, stride=1, padding="same"),
-        ],
+        conv_layers: list[ConvLayerParams] | None = None,
         dropout: float = 0.5,
-        fc_layers: list[FcLayerParams] = [FcLayerParams(out_features=128)],
+        fc_layers: list[FcLayerParams] | None = None,
         num_classes: int = 10,
     ) -> None:
         super().__init__()
+
+        if conv_layers is None:
+            conv_layers = [
+                ConvLayerParams(out_channels=32, kernel_size=3, stride=1, padding="same"),
+                ConvLayerParams(out_channels=64, kernel_size=3, stride=1, padding="same"),
+            ]
+        if fc_layers is None:
+            fc_layers = [FcLayerParams(out_features=128)]
 
         layers: list[nn.Module] = []
         current_channels = input_channels
@@ -46,7 +51,7 @@ class CNN(nn.Module):
                     kernel_size=conv_layer["kernel_size"],
                     stride=conv_layer["stride"],
                     padding=padding,
-                )
+                ),
             )
             layers.append(nn.ReLU())
             layers.append(nn.MaxPool2d(kernel_size=2, stride=2))
@@ -54,9 +59,9 @@ class CNN(nn.Module):
 
             current_channels = conv_layer["out_channels"]
             for i in range(2):
-                current_size[i] = (
-                    current_size[i] + 2 * padding - conv_layer["kernel_size"]
-                ) // conv_layer["stride"] + 1
+                current_size[i] = (current_size[i] + 2 * padding - conv_layer["kernel_size"]) // conv_layer[
+                    "stride"
+                ] + 1
                 current_size[i] = current_size[i] // 2
 
         flatten_size = current_channels * current_size[0] * current_size[1]

@@ -1,4 +1,5 @@
-from typing import Any, Callable
+from collections.abc import Callable
+from typing import Any
 
 import torch
 from lightning import LightningDataModule
@@ -23,6 +24,7 @@ class FashionMNISTDataModule(LightningDataModule):
 
     def __init__(
         self,
+        *,
         data_dir: str = "data/",
         train_val_ratio: tuple[float, float] = (0.9, 0.1),
         batch_size: int = 64,
@@ -55,9 +57,7 @@ class FashionMNISTDataModule(LightningDataModule):
                 lengths=self.hparams.train_val_ratio,
                 generator=torch.Generator().manual_seed(42),
             )
-            self.data_test = FashionMNIST(
-                self.hparams.data_dir, train=False, transform=self.transform
-            )
+            self.data_test = FashionMNIST(self.hparams.data_dir, train=False, transform=self.transform)
 
     def train_dataloader(self) -> DataLoader[Any]:
         assert self.data_train

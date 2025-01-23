@@ -1,13 +1,11 @@
 import logging
-from typing import Mapping
+from collections.abc import Mapping
 
 from lightning_utilities.core.rank_zero import rank_prefixed_message, rank_zero_only
 
 
 class RankedLogger(logging.LoggerAdapter):
-    def __init__(
-        self, name: str, rank_zero_only: bool = False, extra: Mapping[str, object] | None = None
-    ):
+    def __init__(self, name: str, *, rank_zero_only: bool = False, extra: Mapping[str, object] | None = None) -> None:
         super().__init__(logging.getLogger(name), extra)
         self._rank_zero_only = rank_zero_only
 
@@ -21,11 +19,8 @@ class RankedLogger(logging.LoggerAdapter):
         if self._rank_zero_only:
             if current_rank == 0:
                 self.logger.log(level, msg, *args, **kwargs)
-        else:
-            if rank is None:
-                self.logger.log(level, msg, *args, **kwargs)
-            elif current_rank == rank:
-                self.logger.log(level, msg, *args, **kwargs)
+        elif rank is None or current_rank == rank:
+            self.logger.log(level, msg, *args, **kwargs)
 
     def _get_current_rank(self) -> int:
         current_rank = getattr(rank_zero_only, "rank", None)

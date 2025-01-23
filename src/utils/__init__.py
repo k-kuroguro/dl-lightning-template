@@ -5,11 +5,11 @@ from .ranked_logger import RankedLogger
 from .setup_environment import setup_environment
 
 __all__ = [
-    "register_custom_resolvers",
-    "instantiate_callbacks",
-    "instantiate_loggers",
+    "RankedLogger",
     "find_project_root",
     "get_config_path",
-    "RankedLogger",
+    "instantiate_callbacks",
+    "instantiate_loggers",
+    "register_custom_resolvers",
     "setup_environment",
 ]

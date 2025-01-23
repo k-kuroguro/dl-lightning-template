@@ -81,9 +81,7 @@ def train(cfg: DictConfig) -> dict[str, torch.Tensor] | None:
     return overall_metrics
 
 
-@hydra.main(
-    version_base=HYDRA_VERSION, config_path=str(get_config_path()), config_name="train.yaml"
-)
+@hydra.main(version_base=HYDRA_VERSION, config_path=str(get_config_path()), config_name="train.yaml")
 def main(cfg: DictConfig) -> torch.Tensor | None:
     metrics = train(cfg)
 

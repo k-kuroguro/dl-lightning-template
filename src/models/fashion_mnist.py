@@ -1,4 +1,4 @@
-from typing import Callable, Final, TypedDict
+from typing import TYPE_CHECKING, Final, TypedDict
 
 import torch
 from lightning import LightningModule
@@ -8,6 +8,9 @@ from torchmetrics import MaxMetric, MeanMetric
 from torchmetrics.classification.accuracy import Accuracy
 
 from .types import OptimizerFactory, SchedulerFactory
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 class _StepOutput(TypedDict):
@@ -29,6 +32,7 @@ class FashionMNISTLitModule(LightningModule):
 
     def __init__(
         self,
+        *,
         net: torch.nn.Module,
         optimizer: OptimizerFactory,
         scheduler: SchedulerFactory,
@@ -60,18 +64,14 @@ class FashionMNISTLitModule(LightningModule):
         self.val_acc.reset()
         self.val_acc_best.reset()
 
-    def model_step(
-        self, batch: tuple[torch.Tensor, torch.Tensor]
-    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+    def model_step(self, batch: tuple[torch.Tensor, torch.Tensor]) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         x, y = batch
         logits = self.forward(x)
         loss = self.criterion(logits, y)
         preds = torch.argmax(logits, dim=1)
         return loss, preds, y
 
-    def training_step(
-        self, batch: tuple[torch.Tensor, torch.Tensor], batch_idx: int
-    ) -> torch.Tensor:
+    def training_step(self, batch: tuple[torch.Tensor, torch.Tensor], batch_idx: int) -> torch.Tensor:
         loss, preds, targets = self.model_step(batch)
 
         self.train_loss(loss)
@@ -83,9 +83,7 @@ class FashionMNISTLitModule(LightningModule):
 
     def on_train_epoch_end(self) -> None: ...
 
-    def validation_step(
-        self, batch: tuple[torch.Tensor, torch.Tensor], batch_idx: int
-    ) -> _StepOutput:
+    def validation_step(self, batch: tuple[torch.Tensor, torch.Tensor], batch_idx: int) -> _StepOutput:
         loss, preds, targets = self.model_step(batch)
 
         self.val_loss(loss)

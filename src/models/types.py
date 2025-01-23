@@ -9,6 +9,4 @@ class OptimizerFactory(Protocol):
 
 
 class SchedulerFactory(Protocol):
-    def __call__(
-        self, optimizer: torch.optim.Optimizer
-    ) -> torch.optim.lr_scheduler._LRScheduler: ...
+    def __call__(self, optimizer: torch.optim.Optimizer) -> torch.optim.lr_scheduler._LRScheduler: ...

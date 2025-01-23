@@ -1,7 +1,7 @@
 import warnings
+from typing import TYPE_CHECKING
 
 import hydra
-import lightning as L
 import torch
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
@@ -14,6 +14,9 @@ from utils import (
     instantiate_loggers,
     setup_environment,
 )
+
+if TYPE_CHECKING:
+    import lightning as L
 
 log = RankedLogger(__name__, rank_zero_only=True)
 

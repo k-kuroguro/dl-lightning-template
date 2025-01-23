@@ -1,5 +1,5 @@
+from collections.abc import Generator
 from pathlib import Path
-from typing import Generator
 
 import pytest
 from hydra import compose, initialize_config_dir
@@ -72,7 +72,7 @@ def cfg_eval_global() -> DictConfig:
     return cfg
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def cfg_train(cfg_train_global: DictConfig, tmp_path: Path) -> Generator[DictConfig, None, None]:
     cfg = cfg_train_global.copy()
 
@@ -85,7 +85,7 @@ def cfg_train(cfg_train_global: DictConfig, tmp_path: Path) -> Generator[DictCon
     GlobalHydra.instance().clear()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def cfg_eval(cfg_eval_global: DictConfig, tmp_path: Path) -> Generator[DictConfig, None, None]:
     cfg = cfg_eval_global.copy()
 

@@ -9,11 +9,11 @@ from utils import find_project_root
 
 
 class Net(nn.Module):
-    def __init__(self):
-        super(Net, self).__init__()
+    def __init__(self) -> None:
+        super().__init__()
         self.fc = nn.Linear(in_features=28 * 28, out_features=10)
 
-    def forward(self, input):
+    def forward(self, input: torch.Tensor) -> torch.Tensor:
         input = input.view(input.size(0), -1)
         return self.fc(input)
 
