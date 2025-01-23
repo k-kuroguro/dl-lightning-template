@@ -5,9 +5,7 @@ task_name: debug
 callbacks: null
 logger: null
 
-extras:
-  ignore_warnings: False
-  enforce_tags: False
+ignore_warnings: False
 
 hydra:
   job_logging:
