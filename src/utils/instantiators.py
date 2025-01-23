@@ -9,6 +9,14 @@ log = RankedLogger(__name__, rank_zero_only=True)
 
 
 def instantiate_loggers(cfg: DictConfig) -> list[Logger]:
+    """Instantiate loggers from the configuration.
+
+    Args:
+        cfg (DictConfig): Global configuration that may contain a "logger" key.
+
+    Returns:
+        list[Logger]: List of instantiated loggers.
+    """
     if not cfg.get("logger"):
         log.info("No loggers found.")
         return []
@@ -22,6 +30,14 @@ def instantiate_loggers(cfg: DictConfig) -> list[Logger]:
 
 
 def instantiate_callbacks(cfg: DictConfig) -> list[Callback]:
+    """Instantiate callbacks from the configuration.
+
+    Args:
+        cfg (DictConfig): Global configuration that may contain a "callbacks" key.
+
+    Returns:
+        list[Callback]: List of instantiated callbacks.
+    """
     if cfg.get("callbacks") is None:
         log.info("No callbacks found.")
         return []
