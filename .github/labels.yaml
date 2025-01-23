@@ -28,6 +28,3 @@
 - name: automated pr
   description: Automatically created PR
   color: F9D0C4
-- name: style
-  description: Changes related to code style, formatting, or linting
-  color: D4C5F9

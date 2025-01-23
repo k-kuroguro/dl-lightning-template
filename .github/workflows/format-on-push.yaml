@@ -34,13 +34,12 @@ jobs:
       - name: Create PR if needed
         uses: peter-evans/create-pull-request@v7
         with:
-          commit-message: "style: Apply formatter auto-fixes"
+          commit-message: "chore: Apply pre-commit suggestions"
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
           delete-branch: true
           sign-commits: true
-          title: Apply formatter auto-fixes
-          body: This PR was created by the [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub Action and includes fixes automatically formatted by [pre-commit](https://github.com/pre-commit/pre-commit).
+          title: "[pre-commit] pre-commit suggestions"
+          body: This PR was created by the [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub Action and includes fixes suggested by [pre-commit](https://github.com/pre-commit/pre-commit).
           labels: |
-            style
             automated pr
         if: failure() && steps.pre-commit.outcome == 'failure' && env.CREATE_PR == 'true'
