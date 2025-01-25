@@ -36,7 +36,7 @@ class FashionMNISTDataModule(LightningDataModule):
         super().__init__()
 
         if sum(train_val_ratio) != 1.0:
-            raise ValueError("Sum of train_val_ratio must be equal to 1.0")
+            raise ValueError("Sum of train_val_ratio must be equal to 1.0.")
 
         self.save_hyperparameters(logger=False)
 
