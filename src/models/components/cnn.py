@@ -18,6 +18,7 @@ class FcLayerParams(TypedDict):
 class CNN(nn.Module):
     def __init__(
         self,
+        *,
         input_channels: int = 1,
         input_size: tuple[int, int] = (28, 28),
         conv_layers: list[ConvLayerParams] | None = None,
