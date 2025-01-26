@@ -84,4 +84,5 @@ Code formatting is executed via pre-commit.
 
 This template is based on the following projects:
 
-- [Lightning-Hydra-Template](https://github.com/ashleve/lightning-hydra-template)
+- [Lightning Hydra Template](https://github.com/ashleve/lightning-hydra-template)
+- [Yet Another Lightning Hydra Template](https://github.com/gorodnitskiy/yet-another-lightning-hydra-template)
