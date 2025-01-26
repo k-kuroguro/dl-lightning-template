@@ -1,0 +1,7 @@
+defaults:
+  - default
+  - _self_
+
+model_watcher:
+  _target_: callbacks.wandb.ModelWatcher
+  log_freq: 100
