@@ -18,7 +18,7 @@ def _get_setup_environment() -> Callable[[], None]:
 
         register_custom_resolvers()
 
-        rootutils.set_root(path=find_project_root(), project_root_env_var=True, dotenv=True, pythonpath=True)
+        rootutils.set_root(path=find_project_root(), project_root_env_var=False, dotenv=True, pythonpath=True)
 
         initialized = True
 
