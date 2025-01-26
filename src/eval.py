@@ -7,20 +7,12 @@ from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
 from constants import HYDRA_VERSION
-from utils import (
-    RankedLogger,
-    get_config_path,
-    instantiate_callbacks,
-    instantiate_loggers,
-    setup_environment,
-)
+from utils import RankedLogger, close_loggers, get_config_path, instantiate_callbacks, instantiate_loggers, pre_main
 
 if TYPE_CHECKING:
     import lightning as L
 
 log = RankedLogger(__name__, rank_zero_only=True)
-
-setup_environment()
 
 
 def evaluate(cfg: DictConfig) -> dict[str, torch.Tensor] | None:
@@ -54,15 +46,12 @@ def evaluate(cfg: DictConfig) -> dict[str, torch.Tensor] | None:
     trainer.test(model=model, datamodule=datamodule, ckpt_path=cfg.ckpt_path)
     log.info("Testing is done.")
 
-    if cfg.get("logger") and cfg.logger.get("wandb"):
-        import wandb
-
-        if wandb.run:
-            wandb.finish()
+    close_loggers(loggers)
 
     return trainer.callback_metrics
 
 
+@pre_main
 @hydra.main(version_base=HYDRA_VERSION, config_path=str(get_config_path()), config_name="eval.yaml")
 def main(cfg: DictConfig) -> None:
     evaluate(cfg)

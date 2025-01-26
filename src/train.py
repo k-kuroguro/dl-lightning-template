@@ -9,15 +9,14 @@ from omegaconf import DictConfig, OmegaConf
 from constants import HYDRA_VERSION
 from utils import (
     RankedLogger,
+    close_loggers,
     get_config_path,
     instantiate_callbacks,
     instantiate_loggers,
-    setup_environment,
+    pre_main,
 )
 
 log = RankedLogger(__name__, rank_zero_only=True)
-
-setup_environment()
 
 
 def train(cfg: DictConfig) -> dict[str, torch.Tensor] | None:
@@ -71,16 +70,13 @@ def train(cfg: DictConfig) -> dict[str, torch.Tensor] | None:
 
     test_metrics = trainer.callback_metrics
 
-    if cfg.get("logger") and cfg.logger.get("wandb"):
-        import wandb
-
-        if wandb.run:
-            wandb.finish()
+    close_loggers(loggers)
 
     overall_metrics = {**train_metrics, **test_metrics}
     return overall_metrics
 
 
+@pre_main
 @hydra.main(version_base=HYDRA_VERSION, config_path=str(get_config_path()), config_name="train.yaml")
 def main(cfg: DictConfig) -> torch.Tensor | None:
     metrics = train(cfg)
