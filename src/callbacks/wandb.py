@@ -1,6 +1,6 @@
 from typing import Literal
 
-from lightning.pytorch import Callback, LightningModule, Trainer
+from lightning.pytorch import Callback, Trainer
 from lightning.pytorch.loggers import WandbLogger
 from lightning_utilities.core.rank_zero import rank_zero_only
 
@@ -31,7 +31,7 @@ class ModelWatcher(Callback):
         self._log_freq = log_freq
 
     @rank_zero_only
-    def on_train_start(self, trainer: Trainer, pl_module: LightningModule) -> None:
+    def on_train_start(self, trainer, pl_module) -> None:
         assert trainer.model is not None
 
         logger = _get_wandb_logger(trainer=trainer)
