@@ -5,3 +5,17 @@ defaults:
 model_watcher:
   _target_: callbacks.wandb.ModelWatcher
   log_freq: 100
+
+multiclass_confusion_matrix_logger:
+  _target_: callbacks.wandb.MulticlassConfusionMatrixLogger
+  class_names:
+    - T-shirt/top
+    - Trouser
+    - Pullover
+    - Dress
+    - Coat
+    - Sandal
+    - Shirt
+    - Sneaker
+    - Bag
+    - Ankle boot
