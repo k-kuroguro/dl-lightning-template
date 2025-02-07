@@ -26,6 +26,7 @@ tools = [
    "taskipy>=1.14.1",
    "pre-commit>=4.0.1",
    "pytest>=8.3.4",
+   "pytest-randomly>=3.16.0",
 ]
 
 [tool.uv]

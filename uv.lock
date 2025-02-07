@@ -272,6 +272,59 @@ wheels = [
 ]
 
 [[package]]
+name = "dl-lightning-template"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "hydra-colorlog" },
+    { name = "hydra-core" },
+    { name = "hydra-optuna-sweeper" },
+    { name = "lightning" },
+    { name = "rich" },
+    { name = "rootutils" },
+    { name = "sqlalchemy" },
+    { name = "torchvision" },
+    { name = "wandb" },
+]
+
+[package.dev-dependencies]
+tools = [
+    { name = "bottle" },
+    { name = "mypy" },
+    { name = "optuna-dashboard" },
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "pytest-randomly" },
+    { name = "ruff" },
+    { name = "taskipy" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "hydra-colorlog", specifier = ">=1.2.0" },
+    { name = "hydra-core", specifier = ">=1.3.2" },
+    { name = "hydra-optuna-sweeper", specifier = ">=1.2.0" },
+    { name = "lightning", specifier = "==2.5.0.post0" },
+    { name = "rich", specifier = ">=13.9.4" },
+    { name = "rootutils", specifier = ">=1.0.7" },
+    { name = "sqlalchemy", specifier = "==1.4.44" },
+    { name = "torchvision", specifier = ">=0.20.1" },
+    { name = "wandb", specifier = ">=0.19.1" },
+]
+
+[package.metadata.requires-dev]
+tools = [
+    { name = "bottle", specifier = "==0.12.25" },
+    { name = "mypy", specifier = ">=1.14.0" },
+    { name = "optuna-dashboard", specifier = ">=0.14.0" },
+    { name = "pre-commit", specifier = ">=4.0.1" },
+    { name = "pytest", specifier = ">=8.3.4" },
+    { name = "pytest-randomly", specifier = ">=3.16.0" },
+    { name = "ruff", specifier = ">=0.8.4" },
+    { name = "taskipy", specifier = ">=1.14.1" },
+]
+
+[[package]]
 name = "docker-pycreds"
 version = "0.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -605,57 +658,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d6/54/cfe61301667036ec958cb99bd3efefba235e65cdeb9c84d24a8293ba1d90/mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba", size = 8729 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b3/38/89ba8ad64ae25be8de66a6d463314cf1eb366222074cfda9ee839c56a4b4/mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8", size = 9979 },
-]
-
-[[package]]
-name = "dl-lightning-template"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "hydra-colorlog" },
-    { name = "hydra-core" },
-    { name = "hydra-optuna-sweeper" },
-    { name = "lightning" },
-    { name = "rich" },
-    { name = "rootutils" },
-    { name = "sqlalchemy" },
-    { name = "torchvision" },
-    { name = "wandb" },
-]
-
-[package.dev-dependencies]
-tools = [
-    { name = "bottle" },
-    { name = "mypy" },
-    { name = "optuna-dashboard" },
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "ruff" },
-    { name = "taskipy" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "hydra-colorlog", specifier = ">=1.2.0" },
-    { name = "hydra-core", specifier = ">=1.3.2" },
-    { name = "hydra-optuna-sweeper", specifier = ">=1.2.0" },
-    { name = "lightning", specifier = "==2.5.0.post0" },
-    { name = "rich", specifier = ">=13.9.4" },
-    { name = "rootutils", specifier = ">=1.0.7" },
-    { name = "sqlalchemy", specifier = "==1.4.44" },
-    { name = "torchvision", specifier = ">=0.20.1" },
-    { name = "wandb", specifier = ">=0.19.1" },
-]
-
-[package.metadata.requires-dev]
-tools = [
-    { name = "bottle", specifier = "==0.12.25" },
-    { name = "mypy", specifier = ">=1.14.0" },
-    { name = "optuna-dashboard", specifier = ">=0.14.0" },
-    { name = "pre-commit", specifier = ">=4.0.1" },
-    { name = "pytest", specifier = ">=8.3.4" },
-    { name = "ruff", specifier = ">=0.8.4" },
-    { name = "taskipy", specifier = ">=1.14.1" },
 ]
 
 [[package]]
@@ -1234,6 +1236,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/05/35/30e0d83068951d90a01852cb1cef56e5d8a09d20c7f511634cc2f7e0372a/pytest-8.3.4.tar.gz", hash = "sha256:965370d062bce11e73868e0335abac31b4d3de0e82f4007408d242b4f8610761", size = 1445919 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/11/92/76a1c94d3afee238333bc0a42b82935dd8f9cf8ce9e336ff87ee14d9e1cf/pytest-8.3.4-py3-none-any.whl", hash = "sha256:50e16d954148559c9a74109af1eaf0c945ba2d8f30f0a3d3335edde19788b6f6", size = 343083 },
+]
+
+[[package]]
+name = "pytest-randomly"
+version = "3.16.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c0/68/d221ed7f4a2a49a664da721b8e87b52af6dd317af2a6cb51549cf17ac4b8/pytest_randomly-3.16.0.tar.gz", hash = "sha256:11bf4d23a26484de7860d82f726c0629837cf4064b79157bd18ec9d41d7feb26", size = 13367 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/22/70/b31577d7c46d8e2f9baccfed5067dd8475262a2331ffb0bfdf19361c9bde/pytest_randomly-3.16.0-py3-none-any.whl", hash = "sha256:8633d332635a1a0983d3bba19342196807f6afb17c3eef78e02c2f85dade45d6", size = 8396 },
 ]
 
 [[package]]
